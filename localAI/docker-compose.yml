@@ -1,0 +1,21 @@
+version: '3.6'
+
+services:
+  api:
+    image: localai/localai:v2.13.0-cublas-cuda12-core
+    ports:
+      - 8080:8080
+    environment:
+      - MODELS_PATH=/models
+      - DEBUG=true
+    volumes:
+      - ./models:/models:cached
+    command:
+    - stablelm-1.6
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
